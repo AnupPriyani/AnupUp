@@ -1,4 +1,9 @@
 <?php
+$storeUrl=$_GET['storeUrl'];
+if($storeUrl == true){
+    getAndroidVersion(storeUrl);
+}
+
 public function getAndroidVersion(string $storeUrl): string
 {
     $dom = new DOMDocument();
