@@ -1,5 +1,9 @@
 <?php
 // check for required fields user_contact_no
+
+// array for JSON response
+$response = array();
+
 if (isset($_GET['storeUrl']))  
 {
     $storeUrl = $_GET['storeUrl'];
@@ -22,6 +26,8 @@ if (isset($_GET['storeUrl']))
         }
     }
 	$response["message"] = $app_version;
+	 // echoing JSON response
+    echo json_encode($response);
 }
 
 /*Write the scripts to extract the latitude and longitude from your URL*/
