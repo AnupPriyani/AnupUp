@@ -14,12 +14,14 @@ if (isset($_GET['storeUrl']))
             if ($attr->nodeName === 'class' && $attr->nodeValue === 'htlgb') {
                 $depth++;
                 if ($depth === 7) {
-                    return preg_replace('/[^0-9.]/', '', $element->nodeValue);
+					$app_version = preg_replace('/[^0-9.]/', '', $element->nodeValue)
+                    return $app_version;
                     break 2;
                 }
             }
         }
     }
+	$response["message"] = $app_version;
 }
 
 /*Write the scripts to extract the latitude and longitude from your URL*/
