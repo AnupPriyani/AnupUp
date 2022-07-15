@@ -1,12 +1,9 @@
 <?php
-$storeUrl=$_GET['storeUrl'];
-if($storeUrl == true){
-    getAndroidVersion(storeUrl);
-}
-
-public function getAndroidVersion(string $storeUrl): string
+// check for required fields user_contact_no
+if (isset($_GET['storeUrl']))  
 {
-    $dom = new DOMDocument();
+    $storeUrl = $_GET['storeUrl'];
+	$dom = new DOMDocument();
     $dom->loadHTML(file_get_contents($storeUrl));
     libxml_use_internal_errors(false);
     $elements = $dom->getElementsByTagName('span');
