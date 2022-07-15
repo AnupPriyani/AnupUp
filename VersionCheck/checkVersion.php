@@ -3,12 +3,32 @@
 
 // array for JSON response
 $response = array();
+$storelink = "https://play.google.com/store/apps/details?id=";
 
 if (isset($_GET['storeUrl']))  
 {
     $storeUrl = $_GET['storeUrl'];
-	$dom = new DOMDocument();
-    $dom->loadHTML(file_get_contents($storeUrl));
+	$version = getAndroidVersion($storeUrl);
+	$response["message"] = $version;
+	$response["success"] = $version;
+	 // echoing JSON response
+    echo json_encode($response);
+}
+else 
+{
+    // required field is missing
+    $response["success"] = $version;
+    $response["message"] = $version;
+	
+
+    // echoing JSON response
+    echo json_encode($response);
+}
+
+public function getAndroidVersion(string $storeUrl): string
+{
+    $dom = new DOMDocument();
+    $dom->loadHTML(file_get_contents("https://play.google.com/store/apps/details?id=com.king.wifimeter.signalstrength.dp&hl=en"));
     libxml_use_internal_errors(false);
     $elements = $dom->getElementsByTagName('span');
 
@@ -18,26 +38,12 @@ if (isset($_GET['storeUrl']))
             if ($attr->nodeName === 'class' && $attr->nodeValue === 'htlgb') {
                 $depth++;
                 if ($depth === 7) {
-					$app_version = preg_replace('/[^0-9.]/', '', $element->nodeValue)
-                    return $app_version;
+                    return preg_replace('/[^0-9.]/', '', $element->nodeValue);
                     break 2;
                 }
             }
         }
     }
-	$response["message"] = $app_version;
-	 // echoing JSON response
-    echo json_encode($response);
-}
-else 
-{
-    // required field is missing
-    $response["success"] = 0;
-    $response["message"] = "Required field(s) is missing";
-	
-
-    // echoing JSON response
-    echo json_encode($response);
 }
 
 /*Write the scripts to extract the latitude and longitude from your URL*/
